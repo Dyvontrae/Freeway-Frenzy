@@ -3,16 +3,21 @@
 [ext_resource type="Script" path="res://PlayerCar.gd" id="1_wn0ls"]
 [ext_resource type="Texture2D" uid="uid://css3dhh5iipu0" path="res://Assets/Sprites/player_car_blue.png" id="2_3mfx4"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cjypf"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4cpn"]
+radius = 19.5
+height = 77.0
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_wn0ls")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_cjypf")
+position = Vector2(0.5, 1.5)
+shape = SubResource("CapsuleShape2D_n4cpn")
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(1.99999, 0.999996)
 scale = Vector2(0.09, 0.09)
 texture = ExtResource("2_3mfx4")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(1, -2)
