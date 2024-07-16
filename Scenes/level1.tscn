@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1vetokpfg6y0"]
+
+[ext_resource type="Script" path="res://Level.gd" id="1_yt88n"]
+[ext_resource type="Texture2D" uid="uid://bhfdj37flx3wa" path="res://Assets/Sprites/road.png" id="2_c4khu"]
+[ext_resource type="Script" path="res://Scripts/parallaxRoad.gd" id="2_n2e5k"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_yt88n")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(1024, 768)
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.0336806, 0.274307, 0.304702, 1)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource("2_n2e5k")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(3000, 3000)
+
+[node name="Road" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture = ExtResource("2_c4khu")
