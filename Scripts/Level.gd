@@ -15,7 +15,9 @@ func spawn_player():
 	add_child(player)
 	print("Player added to scene tree")
 	
-	# Set the camera to follow the player
+	# Set up the camera
 	var camera = $Camera2D
-	camera.current = true
-	camera.position = Vector2(0, 0)
+	camera.make_current()  # Use this instead of camera.current = true
+	camera.position = Vector2(get_viewport().size.x / 2, get_viewport().size.y * 2/3)
+	camera.drag_horizontal_enabled = false
+	camera.drag_vertical_enabled = false

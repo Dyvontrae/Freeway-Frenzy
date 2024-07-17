@@ -1,24 +1,31 @@
 extends CharacterBody2D
 
 var speed = 260
-var lane_width = 100  # Adjust based on the width of your lanes
+var lane_width = 100
 
 func _ready():
 	print("PlayerCar loaded")
+	position = Vector2(get_viewport().size.x / 2, get_viewport().size.y * 2/3)
 
 func _physics_process(delta):
-	if Input.is_action_just_pressed("ui_left"):
-		position.x -= lane_width
-	elif Input.is_action_just_pressed("ui_right"):
-		position.x += lane_width
+	var parallax = get_node("../ParallaxBackground")
+	
+	if Input.is_action_pressed("ui_left"):
+		parallax.scroll_offset.x += speed * delta
+	elif Input.is_action_pressed("ui_right"):
+		parallax.scroll_offset.x -= speed * delta
+	
+	# Lane changing
+	if Input.is_action_just_pressed("ui_up"):
+		position.y -= lane_width
+	elif Input.is_action_just_pressed("ui_down"):
+		position.y += lane_width
+	
+	# Clamp vertical position
+	position.y = clamp(position.y, get_viewport().size.y / 2, get_viewport().size.y - 50)
 
-	# Ensure the player stays within bounds (modify as needed)
-	position.x = clamp(position.x, 0, lane_width * 2)  # Adjust based on the number of lanes
-
-# Declaring score variable for scoring functionality
 var score = 0
 
-# Increasing score functionality
 func increase_score(amount):
 	score += amount
 	get_node("/root/Main/HUD").update_score(score)

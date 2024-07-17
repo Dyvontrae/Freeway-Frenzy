@@ -3,10 +3,11 @@ extends Node
 var level1_scene = preload("res://Levels/Level1.tscn")
 var start_menu_scene = preload("res://Scenes/StartMenu.tscn")
 var pause_menu_scene = preload("res://Scenes/PauseMenu.tscn")
-
+var hud_scene = preload("res://Scenes/HUD.tscn")  # Add this line
 var current_level = null
 var start_menu = null
 var pause_menu = null
+var hud = null  # Add this line
 
 func _ready():
 	create_start_menu()
@@ -15,6 +16,9 @@ func create_start_menu():
 	start_menu = start_menu_scene.instantiate()
 	add_child(start_menu)
 	start_menu.connect("start_game", Callable(self, "on_start_game"))
+
+  # Ensure the start menu uses the full viewport
+	start_menu.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 
 func create_pause_menu():
 	pause_menu = pause_menu_scene.instantiate()
@@ -38,6 +42,12 @@ func on_start_game():
 	current_level.add_child(player_car_scene)
 	player_car_scene.position = Vector2(100, 100)  # Adjust the starting position if necessary
 
+	# Create and add HUD
+	hud = hud_scene.instantiate()
+	add_child(hud)
+	
+	create_pause_menu()
+		
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause"):
 		if not start_menu:

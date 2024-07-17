@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bsxra73fhf85x"]
+[gd_scene load_steps=4 format=3 uid="uid://bsxra73fhf85x"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_gnnc8"]
-[ext_resource type="Script" path="res://Scripts/HUD.gd" id="2_31p4v"]
 [ext_resource type="PackedScene" uid="uid://bnpskw3qfw0v8" path="res://Scenes/pauseMenu.tscn" id="3_wwrdk"]
 [ext_resource type="PackedScene" uid="uid://hseidjnk4hu5" path="res://Scenes/startMenu.tscn" id="3_ysg13"]
 
@@ -15,11 +14,3 @@ visible = false
 visible = false
 
 [node name="Node" type="Node" parent="."]
-
-[node name="HUD" type="CanvasLayer" parent="."]
-script = ExtResource("2_31p4v")
-
-[node name="Score" type="Label" parent="HUD"]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "SCORE"
