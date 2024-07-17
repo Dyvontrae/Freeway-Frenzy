@@ -1,6 +1,6 @@
 extends Node
 
-var level1_scene = preload("res://Levels/level1.tscn")
+var level1_scene = preload("res://Levels/Level1.tscn")
 var start_menu_scene = preload("res://Scenes/StartMenu.tscn")
 var pause_menu_scene = preload("res://Scenes/PauseMenu.tscn")
 
@@ -25,10 +25,18 @@ func on_start_game():
 	if start_menu:
 		start_menu.queue_free()
 	
+	if current_level:
+		current_level.queue_free()
+	
 	current_level = level1_scene.instantiate()
 	add_child(current_level)
 	
 	create_pause_menu()
+
+	# Ensure only one player car is spawned
+	var player_car_scene = preload("res://Scenes/player_car.tscn").instantiate()
+	current_level.add_child(player_car_scene)
+	player_car_scene.position = Vector2(100, 100)  # Adjust the starting position if necessary
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause"):

@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/startMenu.gd" id="1_cyyt0"]
 
 [node name="Control" type="Control"]
+custom_minimum_size = Vector2(-500, -300)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
