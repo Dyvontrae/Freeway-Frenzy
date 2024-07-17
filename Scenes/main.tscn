@@ -9,6 +9,7 @@
 script = ExtResource("1_gnnc8")
 
 [node name="StartMenu" parent="." instance=ExtResource("3_ysg13")]
+visible = false
 
 [node name="PauseMenu" parent="." instance=ExtResource("3_wwrdk")]
 visible = false
@@ -21,3 +22,4 @@ script = ExtResource("2_31p4v")
 [node name="Score" type="Label" parent="HUD"]
 offset_right = 40.0
 offset_bottom = 23.0
+text = "SCORE"
