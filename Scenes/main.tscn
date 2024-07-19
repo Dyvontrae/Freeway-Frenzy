@@ -1,16 +1,29 @@
 [gd_scene load_steps=4 format=3 uid="uid://bsxra73fhf85x"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_gnnc8"]
-[ext_resource type="PackedScene" uid="uid://bnpskw3qfw0v8" path="res://Scenes/pauseMenu.tscn" id="3_wwrdk"]
-[ext_resource type="PackedScene" uid="uid://hseidjnk4hu5" path="res://Scenes/startMenu.tscn" id="3_ysg13"]
+[ext_resource type="PackedScene" uid="uid://bnpskw3qfw0v8" path="res://Scenes/PauseMenu.tscn" id="3_wwrdk"]
+[ext_resource type="PackedScene" uid="uid://hseidjnk4hu5" path="res://Scenes/StartMenu.tscn" id="3_ysg13"]
 
-[node name="Main Scene" type="Node2D"]
+[node name="Viewport" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_gnnc8")
 
-[node name="StartMenu" parent="." instance=ExtResource("3_ysg13")]
-visible = false
+[node name="Menus" type="Container" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="PauseMenu" parent="." instance=ExtResource("3_wwrdk")]
+[node name="StartMenu" parent="Menus" instance=ExtResource("3_ysg13")]
 visible = false
+layout_mode = 2
 
-[node name="Node" type="Node" parent="."]
+[node name="PauseMenu" parent="Menus" instance=ExtResource("3_wwrdk")]
+visible = false
+layout_mode = 2
+
+[connection signal="start_game" from="Menus/StartMenu" to="." method="_on_start_menu_start_game"]

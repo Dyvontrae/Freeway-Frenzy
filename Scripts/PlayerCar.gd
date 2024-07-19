@@ -1,31 +1,27 @@
 extends CharacterBody2D
 
-var speed = 260
+var speed = 300
 var lane_width = 100
+var current_lane = 1
+var num_lanes = 3
 
 func _ready():
-	print("PlayerCar loaded")
-	position = Vector2(get_viewport().size.x / 2, get_viewport().size.y * 2/3)
+	print("PlayerCar ready")
 
 func _physics_process(delta):
-	var parallax = get_node("../ParallaxBackground")
+	var target_velocity = Vector2.ZERO
 	
-	if Input.is_action_pressed("ui_left"):
-		parallax.scroll_offset.x += speed * delta
-	elif Input.is_action_pressed("ui_right"):
-		parallax.scroll_offset.x -= speed * delta
+	if Input.is_action_just_pressed("move_left"):
+		print("Move left pressed")
+		current_lane = max(0, current_lane - 1)
+	elif Input.is_action_just_pressed("move_right"):
+		print("Move right pressed")
+		current_lane = min(num_lanes - 1, current_lane + 1)
 	
-	# Lane changing
-	if Input.is_action_just_pressed("ui_up"):
-		position.y -= lane_width
-	elif Input.is_action_just_pressed("ui_down"):
-		position.y += lane_width
+	var viewport_size = get_viewport().size
+	var target_x = lane_width * current_lane + (viewport_size.x - lane_width * num_lanes) / 2
+	target_velocity.x = (target_x - position.x) * 10
 	
-	# Clamp vertical position
-	position.y = clamp(position.y, get_viewport().size.y / 2, get_viewport().size.y - 50)
-
-var score = 0
-
-func increase_score(amount):
-	score += amount
-	get_node("/root/Main/HUD").update_score(score)
+	velocity = target_velocity
+	move_and_slide()
+	print("Player position: ", position)

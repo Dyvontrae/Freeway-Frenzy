@@ -11,7 +11,7 @@ script = ExtResource("1_mi1rw")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cjypf")
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 process_mode = 1
 scale = Vector2(0.09, 0.09)
 texture = ExtResource("2_3mfx4")
