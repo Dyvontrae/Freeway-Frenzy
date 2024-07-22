@@ -12,22 +12,26 @@ var start_menu = null
 var pause_menu = null
 var hud = null
 
+# Called when the node is added to the scene
 func _ready():
+	# Prevent the game from quitting automatically
 	get_tree().set_auto_accept_quit(false)
+	# Connect the viewport size changed signal to a method
 	get_viewport().connect("size_changed", Callable(self, "_on_viewport_size_changed"))
 	_on_viewport_size_changed()
-	#scaling to viewport
 	print("Main scene ready")
+	# Create the start menu
 	create_start_menu()
+
+# Called when the viewport size changes
 func _on_viewport_size_changed():
-	var viewport_size = get_viewport().size
-	# Adjust any necessary elements based on the new viewport size
 	if current_level:
-		current_level.position = Vector2(viewport_size.x / 2, 0)
+		current_level.position = Vector2(get_viewport().size.x / 2, 0)
+	# Reposition HUD elements if needed
 	if hud:
-		# Reposition HUD elements if needed
 		pass
 
+# Create and display the start menu
 func create_start_menu():
 	print("Creating start menu")
 	if start_menu:
@@ -35,17 +39,52 @@ func create_start_menu():
 	start_menu = start_menu_scene.instantiate()
 	add_child(start_menu)
 	start_menu.connect("start_game", Callable(self, "on_start_game"))
-	
- # Force full-screen size
-	start_menu.anchor_right = 1
-	start_menu.anchor_bottom = 1
-	start_menu.offset_right = 0
-	start_menu.offset_bottom = 0
-	
+
+	# Center the start menu after it's been added to the scene
+	await get_tree().process_frame
+	center_start_menu()
+
 	print("Start Menu created")
 	print("Start menu child count:", start_menu.get_child_count())
 
+# Method to handle the start_game signal
+func on_start_game():
+	print("Starting game")
+	if start_menu:
+		start_menu.queue_free()
+		start_menu = null
 
+	if current_level:
+		current_level.queue_free()
+
+	current_level = level1_scene.instantiate()
+	add_child(current_level)
+	print("Level1 loaded")
+
+	# Create and add HUD
+	hud = hud_scene.instantiate()
+	add_child(hud)
+
+	# Create the pause menu
+	create_pause_menu()
+
+	# Ensure the level is centered
+	_on_viewport_size_changed()
+
+# Center the start menu in the viewport
+func center_start_menu():
+	if start_menu:
+		var viewport_size = get_viewport().size
+		var viewport_size_v2 = Vector2(viewport_size.x, viewport_size.y)
+
+		# Assuming you can set size and position with existing methods
+		start_menu.rect_min_size = Vector2(400, 300)
+
+		# Center the start menu
+		start_menu.rect_pivot_offset = start_menu.rect_min_size / 2
+		start_menu.rect_position = viewport_size_v2 / 2
+
+# Create and hide the pause menu
 func create_pause_menu():
 	print("Creating pause menu")
 	if pause_menu:
@@ -56,53 +95,24 @@ func create_pause_menu():
 	print("Pause Menu created")
 	print("Pause menu child count:", pause_menu.get_child_count())
 
-func on_start_game():
-	print("Starting game")
-	if start_menu:
-		start_menu.queue_free()
-		start_menu = null
-	
-	if current_level:
-		current_level.queue_free()
-	
-	current_level = level1_scene.instantiate()
-	add_child(current_level)
-	print("Level1 loaded")
-	
-	create_pause_menu()
-	
-	# Ensure the level is positioned correctly 
-	if current_level is Node2D: 
-		current_level.position = Vector2.ZERO
-	
-	var player_car = player_car_scene.instantiate()
-	current_level.add_child(player_car)
-	player_car.position = Vector2(100, 100)  # Adjust the starting position if necessary
-	print("Player Car added")
-	
-	hud = hud_scene.instantiate()
-	add_child(hud)
-	print("HUD created")
-	print("HUD child count:", hud.get_child_count())
+# Handle input events, such as pausing the game
+func _input(event):
+	if event.is_action_pressed("pause_game"):
+		if get_tree().paused:
+			resume_game()
+		else:
+			pause_game()
 
-func _unhandled_input(event):
-	if event.is_action_pressed("ui_cancel") or event.is_action_pressed("Pause"): #attempting to close game or bring up pause menu
-		print("Escape Key Pressed")
-		toggle_pause()
-
-func toggle_pause():
-	if not pause_menu:
-		print("PauseMenu not found")
-		return
-	
-	if get_tree().paused:
-		pause_menu.hide()
-		get_tree().paused = false
-	else:
+# Pause the game and show the pause menu
+func pause_game():
+	print("Pausing game")
+	get_tree().paused = true
+	if pause_menu:
 		pause_menu.show()
-		get_tree().paused = true
-	print("Pause Toggled: ", get_tree().paused)
 
-
-func _on_start_menu_start_game():
-	pass # Replace with function body.
+# Resume the game and hide the pause menu
+func resume_game():
+	print("Resuming game")
+	get_tree().paused = false
+	if pause_menu:
+		pause_menu.hide()

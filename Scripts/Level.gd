@@ -10,7 +10,7 @@ func _ready():
 	call_deferred("setup_level")
 	
 func setup_level():
-	var viewport_size = get_viewport().size
+	# var viewport_size = get_viewport().size
 	position = Vector2.ZERO  # Reset the level position
 	spawn_player()
 

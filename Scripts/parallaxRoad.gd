@@ -6,17 +6,19 @@ func _ready():
 	scale_background()
 
 func _process(delta):
-	for layer in get_children():
-		if layer is ParallaxLayer:
-			layer.motion_offset.y += scroll_speed * delta
+	for child in get_children():
+		if child is ParallaxLayer:
+			child.motion_offset.y += scroll_speed * delta
+			if child.motion_offset.y >= child.motion_mirroring.y:
+				child.motion_offset.y = 0
 
 func scale_background():
 	var viewport_size = get_viewport().size
-	for layer in get_children():
-		if layer is ParallaxLayer:
-			var sprite = layer.get_node("Road")
+	for child in get_children():
+		if child is ParallaxLayer:
+			var sprite = child.get_node("Road")
 			if sprite:
 				var texture_size = sprite.texture.get_size()
 				var scale_factor = viewport_size.x / texture_size.x
 				sprite.scale = Vector2(scale_factor, scale_factor)
-				layer.motion_mirroring.y = texture_size.y * scale_factor
+				child.motion_mirroring.y = texture_size.y * scale_factor
