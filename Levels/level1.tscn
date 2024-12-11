@@ -1,6 +1,73 @@
-[gd_scene load_steps=2 format=3 uid="uid://bu2m54u77yq1n"]
+[gd_scene load_steps=8 format=3 uid="uid://bd80h6we2wvvy"]
 
-[ext_resource type="Script" path="res://Level.gd" id="1_yt88n"]
+[ext_resource type="Script" path="res://Scripts/Level.gd" id="1_1f2gh"]
+[ext_resource type="Script" path="res://Scripts/parallaxRoad.gd" id="2_xqhd6"]
+[ext_resource type="Texture2D" uid="uid://bhfdj37flx3wa" path="res://Assets/Sprites/road.png" id="3_abja2"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_k5aem"]
+normal = Vector2(-0.0339267, 0.999424)
+distance = 2665.96
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bew8b"]
+normal = Vector2(0.999978, -0.0065788)
+distance = 476.983
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_pkpme"]
+normal = Vector2(-1, 0)
+distance = -924.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_yq1nl"]
+distance = 1617.0
 
 [node name="Level" type="Node2D"]
-script = ExtResource("1_yt88n")
+script = ExtResource("1_1f2gh")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Freeway" type="StaticBody2D" parent="."]
+position = Vector2(-2, 10)
+
+[node name="Northbound" type="CollisionShape2D" parent="Freeway"]
+position = Vector2(104, -3072)
+shape = SubResource("WorldBoundaryShape2D_k5aem")
+debug_color = Color(1, 0, 0.0117647, 1)
+
+[node name="Westbound" type="CollisionShape2D" parent="Freeway"]
+position = Vector2(-628, -19)
+shape = SubResource("WorldBoundaryShape2D_bew8b")
+debug_color = Color(1, 0, 0.0117647, 1)
+
+[node name="Eastbound" type="CollisionShape2D" parent="Freeway"]
+position = Vector2(-765, -17)
+shape = SubResource("WorldBoundaryShape2D_pkpme")
+debug_color = Color(1, 0, 0.0117647, 1)
+
+[node name="Southbound" type="CollisionShape2D" parent="Freeway"]
+position = Vector2(2, 2145)
+shape = SubResource("WorldBoundaryShape2D_yq1nl")
+debug_color = Color(1, 0, 0.0117647, 1)
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visibility_layer = 0
+z_index = 2
+custom_minimum_size = Vector2(1024, 768)
+offset_left = -506.0
+offset_top = -390.0
+offset_right = 518.0
+offset_bottom = 378.0
+color = Color(0.0336806, 0.274307, 0.304702, 1)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+scroll_offset = Vector2(1789.11, 828.174)
+script = ExtResource("2_xqhd6")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(0, 400)
+
+[node name="Road" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+z_index = 1
+position = Vector2(-12.9999, -137)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_abja2")

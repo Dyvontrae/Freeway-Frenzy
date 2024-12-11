@@ -14,4 +14,5 @@ Right now each branch will represent a new feature/function in the game, we will
 Sprite for car, menu present, first level laid out. 
 
 ## CURRENT BUILD ISSUES
-Level 1 road is not laid correctly, will not infinitely spawn vertically; vehicle is not locked to road; score and HUD not visible even though present; Menu UI will not disappear, buttons to UI do not work. 
+Level 1 road is not laid correctly, will not infinitely spawn vertically; vehicle is not locked to road; score and HUD not visible even though present; Menu UI will not disappear, buttons to UI do not work.    
+
